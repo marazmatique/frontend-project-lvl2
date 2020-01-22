@@ -1,0 +1,24 @@
+{
+  "name": "frontend-project-lvl2",
+  "version": "1.0.0",
+  "description": "cli utility",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/marazmatique/frontend-project-lvl2.git"
+  },
+  "keywords": [
+    "study",
+    "homework",
+    "lerning"
+  ],
+  "author": "marazmatique",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/marazmatique/frontend-project-lvl2/issues"
+  },
+  "homepage": "https://github.com/marazmatique/frontend-project-lvl2#readme"
+}
