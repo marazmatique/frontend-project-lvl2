@@ -1,5 +1,5 @@
 #!/usr/bin/env node
 
-import funk from '..';
+import gendiff from '..';
 
-funk();
+gendiff;
