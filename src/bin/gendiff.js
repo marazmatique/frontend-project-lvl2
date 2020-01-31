@@ -2,4 +2,4 @@
 
 import gendiff from '..';
 
-gendiff;
+gendiff();
