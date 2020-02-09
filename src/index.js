@@ -11,8 +11,7 @@ export default () => {
     .arguments('<before>')
     .arguments('<after>')
     .action((before, after) => {
-      const diff = getDiff(before, after);
-      console.log(diff);
+      console.log(getDiff(before, after));
     })
     .parse(process.argv);
 
