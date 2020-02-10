@@ -13,11 +13,11 @@ publish:
 test:
 	npm test
 
-run:
-	npx babel-node 'src/bin/gendiff.js' /Users/imac/Hexlet/frontend-project-lvl2/__tests__/fixtures/before.json /Users/imac/Hexlet/frontend-project-lvl2/__tests__/fixtures/after.json
+long_path:
+	npx babel-node 'src/bin/gendiff.js' /Users/imac/Hexlet/frontend-project-lvl2/__fixtures__/before_havy.json /Users/imac/Hexlet/frontend-project-lvl2/__fixtures__/after_havy.json
 
-runn:
-	npx babel-node 'src/bin/gendiff.js' ./__tests__/fixtures/before.json ./__tests__/fixtures/after.json
+short_path:
+	npx babel-node 'src/bin/gendiff.js' ./__fixtures__/before_havy.json ./__fixtures__/after_havy.json
 
 lint:
 	npx eslint .
