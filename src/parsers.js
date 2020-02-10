@@ -4,16 +4,16 @@ import fs from 'fs';
 import path from 'path';
 
 
-const parser = {
+export const makeData = {
   '.json': (data) => JSON.parse(data),
   '.yml': (data) => yaml.safeLoad(data),
   '.ini': (data) => ini.parse(data),
 };
 
-export default (configFilePath) => {
-  const fileType = path.extname(configFilePath);
+export const getData = (configFilePath) => {
+  const extension = path.extname(configFilePath);
 
-  const configFile = fs.readFileSync(configFilePath, 'utf8');
+  const data = fs.readFileSync(configFilePath, 'utf8');
 
-  return parser[fileType](configFile);
+  return makeData[extension](data);
 };
