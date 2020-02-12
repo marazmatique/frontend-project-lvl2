@@ -1,0 +1,9 @@
+﻿{
+  "agentId": 2,
+  "agentName": "fxpnkt",
+  "poolId": 1,
+  "poolName": "Default",
+  "serverUrl": "https://pipelines.actions.githubusercontent.com/rer7z5f866jLZArYXgLerSOvSVUjuc99YdV8PzjPoqHOzGKeNv/",
+  "gitHubUrl": "https://github.com/marazmatique/frontend-project-lvl2",
+  "workFolder": "_work"
+}
