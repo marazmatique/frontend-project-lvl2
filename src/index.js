@@ -7,13 +7,8 @@ export default () => {
   gendiff
     .version('0.0.1')
     .description('fdfdf')
-    .option('-f, --format [style]', 'output format')
-    .arguments('<before>')
-    .arguments('<after>')
-    .action((before, after) => {
-      console.log(getDiff(before, after));
-    })
+    .option('-f, --format [format]', 'write format options', 'total')
+    .arguments('<before> <after>')
+    .action((before, after, options) => console.log(getDiff(before, after, options.format)))
     .parse(process.argv);
-
-  return gendiff;
 };
