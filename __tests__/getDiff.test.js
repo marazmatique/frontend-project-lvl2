@@ -36,19 +36,19 @@ afterAll(() => {
   fs.rmdirSync(getFixturesPath(), { recursive: true });
 });
 
-test.each(['.json', '.yml', '.ini'])('simple%s', (extension) => {
-  const pathBefore = saveConfigFile('/Users/imac/Hexlet/frontend-project-lvl2/__fixtures__/before.json',
+test.each(['.json', '.yml', '.ini'])('plain%s', (extension) => {
+  const pathBefore = saveConfigFile('/Users/imac/Hexlet/frontend-project-lvl2/__fixtures__/before_havy.json',
     extension);
-  const pathAfter = saveConfigFile('/Users/imac/Hexlet/frontend-project-lvl2/__fixtures__/after.json',
+  const pathAfter = saveConfigFile('/Users/imac/Hexlet/frontend-project-lvl2/__fixtures__/after_havy.json',
     extension);
 
   const answer = fs
-    .readFileSync('/Users/imac/Hexlet/frontend-project-lvl2/__fixtures__/answer_simple', 'utf8');
+    .readFileSync('/Users/imac/Hexlet/frontend-project-lvl2/__fixtures__/answer_havy_plain', 'utf8');
 
-  expect(getDiff(pathBefore, pathAfter)).toEqual(answer);
+  expect(getDiff(pathBefore, pathAfter, 'plain')).toEqual(answer);
 });
 
-test.each(['.json', '.yml', '.ini'])('complicated%s', (extension) => {
+test.each(['.json', '.yml', '.ini'])('total%s', (extension) => {
   const pathBefore = saveConfigFile('/Users/imac/Hexlet/frontend-project-lvl2/__fixtures__/before_havy.json',
     extension);
   const pathAfter = saveConfigFile('/Users/imac/Hexlet/frontend-project-lvl2/__fixtures__/after_havy.json',
@@ -57,5 +57,5 @@ test.each(['.json', '.yml', '.ini'])('complicated%s', (extension) => {
   const answer = fs
     .readFileSync('/Users/imac/Hexlet/frontend-project-lvl2/__fixtures__/answer_complicated', 'utf8');
 
-  expect(getDiff(pathBefore, pathAfter)).toEqual(answer);
+  expect(getDiff(pathBefore, pathAfter, 'total')).toEqual(answer);
 });
