@@ -14,7 +14,7 @@ test:
 	npm test
 
 long_path:
-	npx babel-node 'src/bin/gendiff.js' /Users/imac/Hexlet/frontend-project-lvl2/__fixtures__/before_havy.json /Users/imac/Hexlet/frontend-project-lvl2/__fixtures__/after_havy.json
+	npx babel-node 'src/bin/gendiff.js' -f plain /Users/imac/Hexlet/frontend-project-lvl2/__fixtures__/before_havy.json /Users/imac/Hexlet/frontend-project-lvl2/__fixtures__/after_havy.json
 
 short_path:
 	npx babel-node 'src/bin/gendiff.js' ./__fixtures__/before_havy.json ./__fixtures__/after_havy.json
