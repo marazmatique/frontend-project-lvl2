@@ -1,9 +1,9 @@
 import _ from 'lodash';
 import { getData } from './parsers';
+import totalDiff from './formatters/total';
+import plainDiff from './formatters/plain';
 
-const isObject = (ele) => typeof ele === 'object' && ele !== null;
-
-const indent = (num) => ' '.repeat(num);
+export const isObject = (ele) => typeof ele === 'object' && ele !== null;
 
 const buildAst = (obj1, obj2) => {
   const keys = Object.keys({ ...obj1, ...obj2 });
@@ -30,29 +30,15 @@ const buildAst = (obj1, obj2) => {
   }, []);
 };
 
-const stringify = (obj, gap) => `{\n${Object.entries(obj)
-  .map(([key, value]) => `${indent(gap + 4)}${key}: ${value}`)
-  .join('\n')}\n${indent(gap)}}`;
-
-const diff = (ast, gap = 0) => {
-  const answer = ast.map(([key, value]) => {
-    if (Array.isArray(value)) {
-      return `${indent(gap)}${key}: ${diff(value, gap + 4)}`;
-    }
-
-    if (isObject(value)) {
-      return `${indent(gap)}${key}: ${stringify(value, gap + 4)}`;
-    }
-
-    return `${indent(gap)}${key}: ${value}`;
-  });
-
-  return `{\n${answer.join('\n')}\n${indent(gap)}}`;
-};
-
-export default (pathToConfigFile1, pathToConfigFile2) => {
+export default (pathToConfigFile1, pathToConfigFile2, format) => {
   const obj1 = getData(pathToConfigFile1);
   const obj2 = getData(pathToConfigFile2);
   const ast = buildAst(obj1, obj2);
-  return diff(ast);
+  if (format === 'total') {
+    return totalDiff(ast);
+  }
+  if (format === 'plain') {
+    return plainDiff(ast);
+  }
+  return null;
 };
