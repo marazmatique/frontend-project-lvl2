@@ -12,15 +12,15 @@ const getFormated = (value) => {
 
 export const diff = (ast) => {
   const iter = (arr, preKey) => arr
-    .reduce((acc, [key, value]) => {
-      const keyPath = preKey.length > 0 ? [preKey, key.slice(4)].join('.') : key.slice(4);
+    .reduce((acc, [key, status, value]) => {
+      const keyPath = preKey.length > 0 ? [preKey, key].join('.') : key;
       if (Array.isArray(value)) {
         acc.push(...iter(value, keyPath));
         return acc;
       }
 
-      if (/[-+]/.test(key[2])) {
-        acc.push([keyPath, key[2], value]);
+      if (/[-+]/.test(status)) {
+        acc.push([keyPath, status, value]);
         return acc;
       }
 
