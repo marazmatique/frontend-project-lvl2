@@ -1,0 +1,53 @@
+{
+  "common": {
+    "setting2": "was deleted",
+    "setting3": [
+      "was changed",
+      true,
+      {
+        "key": "value"
+      }
+    ],
+    "setting6": {
+      "ops": [
+        "was added with value",
+        "vops"
+      ]
+    },
+    "follow": [
+      "was added with value",
+      false
+    ],
+    "setting4": [
+      "was added with value",
+      "blah blah"
+    ],
+    "setting5": [
+      "was added with value",
+      {
+        "key5": "value5"
+      }
+    ]
+  },
+  "group1": {
+    "baz": [
+      "was changed",
+      "bas",
+      "bars"
+    ],
+    "nest": [
+      "was changed",
+      {
+        "key": "value"
+      },
+      "str"
+    ]
+  },
+  "group2": "was deleted",
+  "group3": [
+    "was added with value",
+    {
+      "fee": 100500
+    }
+  ]
+}
