@@ -13,11 +13,17 @@ publish:
 test:
 	npm test
 
-long_path:
-	npx babel-node 'src/bin/gendiff.js' -f plain /Users/imac/Hexlet/frontend-project-lvl2/__fixtures__/before_havy.json /Users/imac/Hexlet/frontend-project-lvl2/__fixtures__/after_havy.json
+plain:
+	npx babel-node 'src/bin/gendiff.js' -f plain /Users/imac/Hexlet/frontend-project-lvl2/__fixtures__/before.json /Users/imac/Hexlet/frontend-project-lvl2/__fixtures__/after.json
 
-short_path:
-	npx babel-node 'src/bin/gendiff.js' ./__fixtures__/before_havy.json ./__fixtures__/after_havy.json
+short:
+	npx babel-node 'src/bin/gendiff.js' ./__fixtures__/before.json ./__fixtures__/after.json
+
+json:
+	npx babel-node 'src/bin/gendiff.js' -f json /Users/imac/Hexlet/frontend-project-lvl2/__fixtures__/before.json /Users/imac/Hexlet/frontend-project-lvl2/__fixtures__/after.json
+
+total:
+	npx babel-node 'src/bin/gendiff.js' -f total /Users/imac/Hexlet/frontend-project-lvl2/__fixtures__/before.json /Users/imac/Hexlet/frontend-project-lvl2/__fixtures__/after.json
 
 lint:
 	npx eslint .
