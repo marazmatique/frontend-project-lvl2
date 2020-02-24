@@ -7,8 +7,8 @@ import { getData } from '../src/parsers';
 
 
 const getFixturesPath = (name, ext) => path.format({
-  root: '/',
-  dir: '/Users/imac/Hexlet/frontend-project-lvl2/__fixtures__/testPlace',
+  root: './',
+  dir: `${__dirname}/../__fixtures__/testPlace`,
   name,
   ext,
 });
@@ -37,37 +37,35 @@ afterAll(() => {
 });
 
 test.each(['.json', '.yml', '.ini'])('plain%s', (extension) => {
-  const pathBefore = saveConfigFile('/Users/imac/Hexlet/frontend-project-lvl2/__fixtures__/before.json',
+  const pathBefore = saveConfigFile(`${__dirname}/../__fixtures__/before.json`,
     extension);
-  const pathAfter = saveConfigFile('/Users/imac/Hexlet/frontend-project-lvl2/__fixtures__/after.json',
+  const pathAfter = saveConfigFile(`${__dirname}/../__fixtures__/after.json`,
     extension);
 
   const answer = fs
-    .readFileSync('/Users/imac/Hexlet/frontend-project-lvl2/__fixtures__/answer_plain', 'utf8');
+    .readFileSync(`${__dirname}/../__fixtures__/answer_plain`, 'utf8');
 
   expect(getDiff(pathBefore, pathAfter, 'plain')).toEqual(answer);
 });
 
 test.each(['.json', '.yml', '.ini'])('total%s', (extension) => {
-  const pathBefore = saveConfigFile('/Users/imac/Hexlet/frontend-project-lvl2/__fixtures__/before.json',
+  const pathBefore = saveConfigFile(`${__dirname}/../__fixtures__/before.json`,
     extension);
-  const pathAfter = saveConfigFile('/Users/imac/Hexlet/frontend-project-lvl2/__fixtures__/after.json',
+  const pathAfter = saveConfigFile(`${__dirname}/../__fixtures__/after.json`,
     extension);
-
   const answer = fs
-    .readFileSync('/Users/imac/Hexlet/frontend-project-lvl2/__fixtures__/answer_total', 'utf8');
+    .readFileSync(`${__dirname}/../__fixtures__/answer_total`, 'utf8');
 
   expect(getDiff(pathBefore, pathAfter, 'total')).toEqual(answer);
 });
 
 test.each(['.json', '.yml', '.ini'])('json%s', (extension) => {
-  const pathBefore = saveConfigFile('/Users/imac/Hexlet/frontend-project-lvl2/__fixtures__/before.json',
+  const pathBefore = saveConfigFile(`${__dirname}/../__fixtures__/before.json`,
     extension);
-  const pathAfter = saveConfigFile('/Users/imac/Hexlet/frontend-project-lvl2/__fixtures__/after.json',
+  const pathAfter = saveConfigFile(`${__dirname}/../__fixtures__/after.json`,
     extension);
-
   const answer = fs
-    .readFileSync('/Users/imac/Hexlet/frontend-project-lvl2/__fixtures__/answer.json', 'utf8');
+    .readFileSync(`${__dirname}/../__fixtures__/answer.json`, 'utf8');
 
   expect(getDiff(pathBefore, pathAfter, 'json')).toEqual(answer);
 });
