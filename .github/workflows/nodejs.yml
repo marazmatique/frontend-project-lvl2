@@ -23,6 +23,7 @@ jobs:
         run: |
           make install
           make build
+          make test
         env:
           CI: true
       - name: Run linter
