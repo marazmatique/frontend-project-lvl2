@@ -21,7 +21,7 @@ test:
 	npm test
 
 test-coverage:
-	npm test -- --coverage
+	npm jest --coverage
 
 plain:
 	npx babel-node 'src/bin/gendiff.js' -f plain /Users/imac/Hexlet/frontend-project-lvl2/__fixtures__/before.json /Users/imac/Hexlet/frontend-project-lvl2/__fixtures__/after.json
