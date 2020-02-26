@@ -2,7 +2,7 @@ install:
 	npm install
 
 build:
-    rm -rf dist
+	rm -rf dist
 	npm run build
 
 h:
