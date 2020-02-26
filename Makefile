@@ -1,5 +1,5 @@
 install:
-	npm install-deps
+	npm install
 
 build:
 	rm -rf dist
