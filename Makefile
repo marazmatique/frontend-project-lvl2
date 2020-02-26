@@ -5,6 +5,9 @@ build:
 	rm -rf dist
 	npm run build
 
+install-deps:
+	npm ci
+
 h:
 	npx babel-node 'src/bin/gendiff.js' -h
 
