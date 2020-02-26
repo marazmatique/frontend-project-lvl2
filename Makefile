@@ -1,6 +1,9 @@
 install:
 	npm install
 
+install-deps:
+	npm ci
+
 build:
 	rm -rf dist
 	npm run build
