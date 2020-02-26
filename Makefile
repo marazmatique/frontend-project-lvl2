@@ -12,9 +12,12 @@ V:
 	npx babel-node 'src/bin/gendiff.js' --version
 
 publish:
-	npm publish --dry-run
+	npm publish
 
 test:
+	npm test
+
+test-coverage:
 	npm test --coverage
 
 plain:
