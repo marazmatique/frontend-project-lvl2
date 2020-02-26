@@ -4,9 +4,6 @@ env:
 extends:
   - 'airbnb-base'
   - 'plugin:jest/recommended'
-globals:
-  Atomics: readonly
-  SharedArrayBuffer: readonly
 parser:
   babel-eslint
 rules:
