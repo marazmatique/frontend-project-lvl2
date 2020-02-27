@@ -40,29 +40,17 @@ afterAll(() => {
   fs.rmdirSync(getFixturesPath(), { recursive: true });
 });
 
-test.each(['.json', '.yml', '.ini'])('plain%s', (extension) => {
-  const pathBefore = `${__dirname}/../__fixtures__/testPlace/before${extension}`;
-  const pathAfter = `${__dirname}/../__fixtures__/testPlace/after${extension}`;
-  const answer = fs
-    .readFileSync(`${__dirname}/../__fixtures__/answer_plain`, 'utf8');
+test.each([
+  ['plain', ['.json', '.yml', '.ini'], 'answer_plain'],
+  ['total', ['.json', '.yml', '.ini'], 'answer_total'],
+  ['json', ['.json', '.yml', '.ini'], 'answer.json'],
+])('%s(%s)', (format, extensions, ans) => {
+  extensions.forEach((ext) => {
+    const pathBefore = `${__dirname}/../__fixtures__/testPlace/before${ext}`;
+    const pathAfter = `${__dirname}/../__fixtures__/testPlace/after${ext}`;
+    const answer = fs
+      .readFileSync(`${__dirname}/../__fixtures__/${ans}`, 'utf8');
 
-  expect(getDiff(pathBefore, pathAfter, 'plain')).toEqual(answer);
-});
-
-test.each(['.json', '.yml', '.ini'])('total%s', (extension) => {
-  const pathBefore = `${__dirname}/../__fixtures__/testPlace/before${extension}`;
-  const pathAfter = `${__dirname}/../__fixtures__/testPlace/after${extension}`;
-  const answer = fs
-    .readFileSync(`${__dirname}/../__fixtures__/answer_total`, 'utf8');
-
-  expect(getDiff(pathBefore, pathAfter, 'total')).toEqual(answer);
-});
-
-test.each(['.json', '.yml', '.ini'])('json%s', (extension) => {
-  const pathBefore = `${__dirname}/../__fixtures__/testPlace/before${extension}`;
-  const pathAfter = `${__dirname}/../__fixtures__/testPlace/after${extension}`;
-  const answer = fs
-    .readFileSync(`${__dirname}/../__fixtures__/answer.json`, 'utf8');
-
-  expect(getDiff(pathBefore, pathAfter, 'json')).toEqual(answer);
+    expect(getDiff(pathBefore, pathAfter, format)).toEqual(answer);
+  });
 });
