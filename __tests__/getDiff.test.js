@@ -30,6 +30,10 @@ const saveConfigFile = (pathToPrototype, ext) => {
 
 beforeAll(() => {
   fs.mkdirSync(getFixturesPath());
+  ['.json', '.yml', '.ini'].forEach((extension) => {
+    saveConfigFile(`${__dirname}/../__fixtures__/before.json`, extension);
+    saveConfigFile(`${__dirname}/../__fixtures__/after.json`, extension);
+  });
 });
 
 afterAll(() => {
@@ -37,11 +41,8 @@ afterAll(() => {
 });
 
 test.each(['.json', '.yml', '.ini'])('plain%s', (extension) => {
-  const pathBefore = saveConfigFile(`${__dirname}/../__fixtures__/before.json`,
-    extension);
-  const pathAfter = saveConfigFile(`${__dirname}/../__fixtures__/after.json`,
-    extension);
-
+  const pathBefore = `${__dirname}/../__fixtures__/testPlace/before${extension}`;
+  const pathAfter = `${__dirname}/../__fixtures__/testPlace/after${extension}`;
   const answer = fs
     .readFileSync(`${__dirname}/../__fixtures__/answer_plain`, 'utf8');
 
@@ -49,10 +50,8 @@ test.each(['.json', '.yml', '.ini'])('plain%s', (extension) => {
 });
 
 test.each(['.json', '.yml', '.ini'])('total%s', (extension) => {
-  const pathBefore = saveConfigFile(`${__dirname}/../__fixtures__/before.json`,
-    extension);
-  const pathAfter = saveConfigFile(`${__dirname}/../__fixtures__/after.json`,
-    extension);
+  const pathBefore = `${__dirname}/../__fixtures__/testPlace/before${extension}`;
+  const pathAfter = `${__dirname}/../__fixtures__/testPlace/after${extension}`;
   const answer = fs
     .readFileSync(`${__dirname}/../__fixtures__/answer_total`, 'utf8');
 
@@ -60,10 +59,8 @@ test.each(['.json', '.yml', '.ini'])('total%s', (extension) => {
 });
 
 test.each(['.json', '.yml', '.ini'])('json%s', (extension) => {
-  const pathBefore = saveConfigFile(`${__dirname}/../__fixtures__/before.json`,
-    extension);
-  const pathAfter = saveConfigFile(`${__dirname}/../__fixtures__/after.json`,
-    extension);
+  const pathBefore = `${__dirname}/../__fixtures__/testPlace/before${extension}`;
+  const pathAfter = `${__dirname}/../__fixtures__/testPlace/after${extension}`;
   const answer = fs
     .readFileSync(`${__dirname}/../__fixtures__/answer.json`, 'utf8');
 
