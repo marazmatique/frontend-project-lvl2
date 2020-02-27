@@ -20,6 +20,10 @@ const buildAst = (obj1, obj2) => {
       acc.push([key, ' ', before]);
       return acc;
     }
+    if (_.has(obj1, key) && _.has(obj2, key)) {
+      acc.push([key, 'changed', before, after]);
+      return acc;
+    }
     if (_.has(obj1, key)) {
       acc.push([key, '-', before]);
     }

@@ -12,15 +12,15 @@ const getFormated = (value) => {
 
 export const diff = (ast) => {
   const iter = (arr, preKey) => arr
-    .reduce((acc, [key, status, value]) => {
+    .reduce((acc, [key, status, value, newValue]) => {
       const keyPath = preKey.length > 0 ? [preKey, key].join('.') : key;
       if (Array.isArray(value)) {
         acc.push(...iter(value, keyPath));
         return acc;
       }
 
-      if (/[-+]/.test(status)) {
-        acc.push([keyPath, status, value]);
+      if (/[^ ]/.test(status)) {
+        acc.push([keyPath, status, value, newValue]);
         return acc;
       }
 
@@ -28,30 +28,22 @@ export const diff = (ast) => {
     }, []);
 
   const changes = iter(ast, []);
-  const answer = [];
 
-  for (let i = 0; i < changes.length;) {
-    const [currentKey, currentOperand, currentValue] = changes[i];
-    const [nextKey, , nextValue] = changes[i + 1] || [null, null, null];
+  return changes.reduce((acc, [key, status, value, newValue]) => {
     switch (true) {
-      case (currentKey === nextKey):
-        answer.push(`Property '${currentKey}' was changed from ${getFormated(currentValue)} to ${getFormated(nextValue)}`);
-        i += 2;
-        break;
-      case (currentOperand === '-'):
-        answer.push(`Property '${currentKey}' was deleted`);
-        i += 1;
-        break;
-      case (currentOperand === '+'):
-        answer.push(`Property '${currentKey}' was added with value: ${getFormated(currentValue)}`);
-        i += 1;
-        break;
+      case (status === 'changed'):
+        acc.push(`Property '${key}' was changed from ${getFormated(value)} to ${getFormated(newValue)}`);
+        return acc;
+      case (status === '-'):
+        acc.push(`Property '${key}' was deleted`);
+        return acc;
+      case (status === '+'):
+        acc.push(`Property '${key}' was added with value: ${getFormated(value)}`);
+        return acc;
       default:
-        answer.push(null);
+        return acc;
     }
-  }
-
-  return answer.join('\n');
+  }, []).join('\n');
 };
 
 export default diff;
