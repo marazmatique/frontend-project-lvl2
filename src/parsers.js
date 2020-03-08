@@ -1,19 +1,17 @@
 import yaml from 'js-yaml';
 import ini from 'ini';
-import fs from 'fs';
-import path from 'path';
+import totalDiff from './formatters/total';
+import plainDiff from './formatters/plain';
+import jsonDiff from './formatters/json';
 
-
-const makeData = {
-  '.json': (data) => JSON.parse(data),
-  '.yml': (data) => yaml.safeLoad(data),
-  '.ini': (data) => ini.parse(data),
+export const inputParsers = {
+  '.json': JSON.parse,
+  '.yml': yaml.safeLoad,
+  '.ini': ini.parse,
 };
 
-export default (configFilePath) => {
-  const extension = path.extname(configFilePath);
-
-  const data = fs.readFileSync(configFilePath, 'utf8');
-
-  return makeData[extension](data);
+export const outputParsers = {
+  total: totalDiff,
+  plain: plainDiff,
+  json: jsonDiff,
 };
