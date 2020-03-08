@@ -16,7 +16,6 @@ export default (ast) => {
         if (isObject(value)) {
           return stringify(value, gap + 4);
         }
-
         return value;
       };
 
@@ -24,22 +23,23 @@ export default (ast) => {
         case ('changed'):
           acc.push(`${indent(gap)}  - ${key}: ${getDeep(valueBefore)}`);
           acc.push(`${indent(gap)}  + ${key}: ${getDeep(valueAfter)}`);
-          return acc;
+          break;
         case ('deep'):
           acc.push(`${indent(gap)}    ${key}: ${getDeep(valueBefore)}`);
-          return acc;
+          break;
         case ('deleted'):
           acc.push(`${indent(gap)}  - ${key}: ${getDeep(valueBefore)}`);
-          return acc;
+          break;
         case ('added'):
           acc.push(`${indent(gap)}  + ${key}: ${getDeep(valueAfter)}`);
-          return acc;
+          break;
         case ('equal'):
           acc.push(`${indent(gap)}    ${key}: ${getDeep(valueBefore)}`);
-          return acc;
+          break;
         default:
           throw new Error(`unknown state "${state}"`);
       }
+      return acc;
     }, []);
 
   return `{\n${iter(ast, 0).join('\n')}\n}`;

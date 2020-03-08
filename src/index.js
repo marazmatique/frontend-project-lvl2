@@ -11,12 +11,9 @@ const buildAst = (obj1, obj2) => {
   const makeNode = (key) => {
     const isHasObj1 = _.has(obj1, key);
     const isHasObj2 = _.has(obj2, key);
-
     const valueBefore = obj1[key];
     const valueAfter = obj2[key];
-
     let state;
-
     switch (true) {
       case (isHasObj1 && !isHasObj2):
         state = 'deleted';
