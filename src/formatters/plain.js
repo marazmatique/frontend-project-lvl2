@@ -1,4 +1,4 @@
-const getFormated = (value) => {
+const formatValue = (value) => {
   switch (typeof value) {
     case ('object'):
       return '[complex value]';
@@ -11,23 +11,25 @@ const getFormated = (value) => {
 
 export default (ast) => {
   const iter = (arr, preKey) => arr
-    .reduce((acc, [key, status, value, newValue]) => {
+    .reduce((acc, [key, state, valueBefore, valueAfter]) => {
       const keyPath = preKey.length > 0 ? [preKey, key].join('.') : key;
-      switch (true) {
-        case (Array.isArray(value)):
-          acc.push(...iter(value, keyPath));
+      switch (state) {
+        case ('deep'):
+          acc.push(...iter(valueBefore, keyPath));
           return acc;
-        case (status === 'changed'):
-          acc.push(`Property '${keyPath}' was changed from ${getFormated(value)} to ${getFormated(newValue)}`);
+        case ('changed'):
+          acc.push(`Property '${keyPath}' was changed from ${formatValue(valueBefore)} to ${formatValue(valueAfter)}`);
           return acc;
-        case (status === '-'):
+        case ('deleted'):
           acc.push(`Property '${keyPath}' was deleted`);
           return acc;
-        case (status === '+'):
-          acc.push(`Property '${keyPath}' was added with value: ${getFormated(value)}`);
+        case ('added'):
+          acc.push(`Property '${keyPath}' was added with value: ${formatValue(valueAfter)}`);
+          return acc;
+        case ('equal'):
           return acc;
         default:
-          return acc;
+          throw new Error(`unknown state "${state}"`);
       }
     }, []);
 

@@ -8,7 +8,7 @@ const stringify = (obj, gap) => `{\n${Object.entries(obj)
 
 export default (ast) => {
   const iter = (arr, gap) => arr
-    .reduce((acc, [key, status, oldValue, newValue]) => {
+    .reduce((acc, [key, state, valueBefore, valueAfter]) => {
       const getDeep = (value) => {
         if (Array.isArray(value)) {
           return `{\n${iter(value, gap + 4).join('\n')}\n${indent(gap + 4)}}`;
@@ -20,14 +20,26 @@ export default (ast) => {
         return value;
       };
 
-      if (status === 'changed') {
-        acc.push(`${indent(gap)}  - ${key}: ${getDeep(oldValue)}`);
-        acc.push(`${indent(gap)}  + ${key}: ${getDeep(newValue)}`);
-        return acc;
+      switch (state) {
+        case ('changed'):
+          acc.push(`${indent(gap)}  - ${key}: ${getDeep(valueBefore)}`);
+          acc.push(`${indent(gap)}  + ${key}: ${getDeep(valueAfter)}`);
+          return acc;
+        case ('deep'):
+          acc.push(`${indent(gap)}    ${key}: ${getDeep(valueBefore)}`);
+          return acc;
+        case ('deleted'):
+          acc.push(`${indent(gap)}  - ${key}: ${getDeep(valueBefore)}`);
+          return acc;
+        case ('added'):
+          acc.push(`${indent(gap)}  + ${key}: ${getDeep(valueAfter)}`);
+          return acc;
+        case ('equal'):
+          acc.push(`${indent(gap)}    ${key}: ${getDeep(valueBefore)}`);
+          return acc;
+        default:
+          throw new Error(`unknown state "${state}"`);
       }
-
-      acc.push(`${indent(gap)}  ${status} ${key}: ${getDeep(oldValue)}`);
-      return acc;
     }, []);
 
   return `{\n${iter(ast, 0).join('\n')}\n}`;

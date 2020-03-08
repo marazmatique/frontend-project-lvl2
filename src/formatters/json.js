@@ -1,26 +1,28 @@
 const isObject = (ele) => typeof ele === 'object';
 
-export const stringify = (obj) => Object.fromEntries(Object.entries(obj)
+const stringify = (obj) => Object.fromEntries(Object.entries(obj)
   .map(([key, value]) => [key, !/[^0-9]/.test(value) ? parseInt(value, 10) : value]));
 
 export default (ast) => {
   const iter = (arr) => arr
-    .reduce((acc, [key, status, value, newValue]) => {
-      switch (true) {
-        case (Array.isArray(value)):
-          acc[key] = iter(value);
+    .reduce((acc, [key, state, valueBefore, valueAfter]) => {
+      switch (state) {
+        case ('deep'):
+          acc[key] = iter(valueBefore);
           return acc;
-        case (status === 'changed'):
-          acc[key] = ['was changed', value, newValue];
+        case ('changed'):
+          acc[key] = ['was changed', valueBefore, valueAfter];
           return acc;
-        case (status === '-'):
+        case ('deleted'):
           acc[key] = 'was deleted';
           return acc;
-        case (status === '+'):
-          acc[key] = ['was added with value', isObject(value) ? stringify(value) : value];
+        case ('added'):
+          acc[key] = ['was added with value', isObject(valueAfter) ? stringify(valueAfter) : valueAfter];
+          return acc;
+        case ('equal'):
           return acc;
         default:
-          return acc;
+          throw new Error(`unknown state "${state}"`);
       }
     }, {});
 
