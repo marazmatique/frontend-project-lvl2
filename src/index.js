@@ -27,9 +27,11 @@ const buildAst = (obj1, obj2) => {
       case (valueBefore === valueAfter):
         state = 'equal';
         break;
-      default:
+      case (valueBefore !== valueAfter):
         state = 'changed';
         break;
+      default:
+        throw new Error(`unknown state "${key}"`);
     }
     return [key, state, valueBefore, valueAfter];
   };
