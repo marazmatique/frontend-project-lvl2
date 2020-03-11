@@ -6,8 +6,8 @@ const getFixturePath = (filename) => path.join(__dirname, '..', '__fixtures__', 
 const readFile = (filename) => fs.readFileSync(getFixturePath(filename), 'utf-8');
 
 test.each([
-  ['total', ['.json', '.yml', '.ini'], 'answer_total'],
   ['plain', ['.json', '.yml', '.ini'], 'answer_plain'],
+  ['total', ['.json', '.yml', '.ini'], 'answer_total'],
   ['json', ['.json', '.yml', '.ini'], 'answer.json'],
 ])('%s(%s)', (format, extensions, ans) => {
   const answer = readFile(ans);
