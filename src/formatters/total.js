@@ -7,18 +7,18 @@ const stringify = (obj, gap) => `{\n${Object.entries(obj)
   .join('\n')}\n${indent(gap)}}`;
 
 export default (ast) => {
-  const iter = (arr, gap) => arr
-    .reduce((acc, [key, state, valueBefore, valueAfter]) => {
-      const getDeep = (value) => {
-        if (Array.isArray(value)) {
-          return `{\n${iter(value, gap + 4).join('\n')}\n${indent(gap + 4)}}`;
-        }
-        if (isObject(value)) {
-          return stringify(value, gap + 4);
-        }
-        return value;
-      };
+  const iter = (arr, gap) => {
+    const getDeep = (value) => {
+      if (Array.isArray(value)) {
+        return `{\n${iter(value, gap + 4).join('\n')}\n${indent(gap + 4)}}`;
+      }
+      if (isObject(value)) {
+        return stringify(value, gap + 4);
+      }
+      return value;
+    };
 
+    return arr.reduce((acc, [key, state, valueBefore, valueAfter]) => {
       switch (state) {
         case ('changed'):
           acc.push(`${indent(gap)}  - ${key}: ${getDeep(valueBefore)}`);
@@ -39,8 +39,10 @@ export default (ast) => {
         default:
           throw new Error(`unknown state "${state}"`);
       }
+
       return acc;
     }, []);
+  };
 
   return `{\n${iter(ast, 0).join('\n')}\n}`;
 };

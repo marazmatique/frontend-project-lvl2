@@ -24,16 +24,16 @@ test-coverage:
 	npm test -- --coverage
 
 plain:
-	npx babel-node 'src/bin/gendiff.js' -f plain /Users/imac/Hexlet/frontend-project-lvl2/__fixtures__/before.json /Users/imac/Hexlet/frontend-project-lvl2/__fixtures__/after.json
+	npx babel-node 'src/bin/gendiff.js' -f plain ./__fixtures__/before.json ./__fixtures__/after.json
 
 short:
 	npx babel-node 'src/bin/gendiff.js' ./__fixtures__/before.json ./__fixtures__/after.json
 
 json:
-	npx babel-node 'src/bin/gendiff.js' -f json /Users/imac/Hexlet/frontend-project-lvl2/__fixtures__/before.json /Users/imac/Hexlet/frontend-project-lvl2/__fixtures__/after.json
+	npx babel-node 'src/bin/gendiff.js' -f json /Users/imac/Hexlet/frontend-project-lvl2-by-marazmatique/__fixtures__/before.ini /Users/imac/Hexlet/frontend-project-lvl2-by-marazmatique/__fixtures__/after.ini
 
 total:
-	npx babel-node 'src/bin/gendiff.js' -f total /Users/imac/Hexlet/frontend-project-lvl2/__fixtures__/before.json /Users/imac/Hexlet/frontend-project-lvl2/__fixtures__/after.json
+	npx babel-node 'src/bin/gendiff.js' -f total /Users/imac/Hexlet/frontend-project-lvl2-by-marazmatique/__fixtures__/before.json /Users/imac/Hexlet/frontend-project-lvl2-by-marazmatique/__fixtures__/after.json
 
 lint:
 	npx eslint .

@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 import commander from 'commander';
-import getDiff from 'frontend-project-lvl2';
+import getDiff from 'frontend-project-lvl2-by-marazmatique';
 
 const gendiff = () => new commander.Command()
   .version('0.0.1')
