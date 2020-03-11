@@ -16,7 +16,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/marazmatique/frontend-project-lvl2.git"
+    "url": "git+https://github.com/marazmatique/frontend-project-lvl2-by-marazmatique.git"
   },
   "keywords": [
     "study",
@@ -26,12 +26,12 @@
   "author": "marazmatique",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/marazmatique/frontend-project-lvl2/issues"
+    "url": "https://github.com/marazmatique/frontend-project-lvl2-by-marazmatique/issues"
   },
   "jest": {
     "testEnvironment": "node"
   },
-  "homepage": "https://github.com/marazmatique/frontend-project-lvl2#readme",
+  "homepage": "https://github.com/marazmatique/frontend-project-lvl2-by-marazmatique#readme",
   "dependencies": {
     "commander": "^4.1.1",
     "frontend-project-lvl2-by-marazmatique": "^1.1.0",
