@@ -1,6 +1,6 @@
 import fs from 'fs';
 import path from 'path';
-import getDiff from '../src';
+import getDiff from 'frontend-project-lvl2-by-marazmatique';
 
 const getFixturePath = (filename) => path.join(__dirname, '..', '__fixtures__', filename);
 const readFile = (filename) => fs.readFileSync(getFixturePath(filename), 'utf-8');
