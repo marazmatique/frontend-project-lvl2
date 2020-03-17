@@ -1,4 +1,4 @@
-const isObject = (ele) => typeof ele === 'object';
+import _ from 'lodash';
 
 const indent = (num) => ' '.repeat(num);
 
@@ -13,7 +13,7 @@ export default (ast) => {
         if (Array.isArray(value)) {
           return `{\n${iter(value, gap + 4).join('\n')}\n${indent(gap + 4)}}`;
         }
-        if (isObject(value)) {
+        if (_.isObject(value)) {
           return stringify(value, gap + 4);
         }
         return value;

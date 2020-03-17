@@ -1,4 +1,4 @@
-const isObject = (ele) => typeof ele === 'object';
+import _ from 'lodash';
 
 const stringify = (obj) => Object.fromEntries(Object.entries(obj)
   .map(([key, value]) => [key, !/[^0-9]/.test(value) ? parseInt(value, 10) : value]));
@@ -17,7 +17,7 @@ export default (ast) => {
           acc[key] = 'was deleted';
           return acc;
         case ('added'):
-          acc[key] = ['was added with value', isObject(valueAfter) ? stringify(valueAfter) : valueAfter];
+          acc[key] = ['was added with value', _.isObject(valueAfter) ? stringify(valueAfter) : valueAfter];
           return acc;
         case ('equal'):
           return acc;
