@@ -1,17 +1,16 @@
 import yaml from 'js-yaml';
 import ini from 'ini';
-import totalDiff from './formatters/total';
-import plainDiff from './formatters/plain';
-import jsonDiff from './formatters/json';
 
-export const inputParsers = {
-  '.json': JSON.parse,
-  '.yml': yaml.safeLoad,
-  '.ini': ini.parse,
-};
+export default (configData) => {
+  if (/^[{\t}]/m.test(configData)) {
+    return JSON.parse(configData);
+  }
+  if (/:/m.test(configData)) {
+    return yaml.safeLoad(configData);
+  }
+  if (/^[^\t]/m.test(configData)) {
+    return ini.parse(configData);
+  }
 
-export const outputParsers = {
-  total: totalDiff,
-  plain: plainDiff,
-  json: jsonDiff,
+  throw new Error(`unsupported type of configData: ${configData}`);
 };

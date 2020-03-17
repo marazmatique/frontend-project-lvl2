@@ -18,6 +18,8 @@ publish:
 	npm publish
 
 test:
+	rm -rf dist
+	npm run build
 	npm test
 
 test-coverage:

@@ -1,53 +1,54 @@
 import _ from 'lodash';
 import fs from 'fs';
-import path from 'path';
-import { inputParsers, outputParsers } from './parsers';
-
-const isObject = (ele) => typeof ele === 'object';
+import parse from './parsers';
+import totalDiff from './formatters/total';
+import plainDiff from './formatters/plain';
+import jsonDiff from './formatters/json';
 
 const buildAst = (obj1, obj2) => {
-  const keys = Object.keys({ ...obj1, ...obj2 });
+  const keys = _.union(_.keys(obj1), _.keys(obj2));
 
   const makeNode = (key) => {
     const isHasObj1 = _.has(obj1, key);
     const isHasObj2 = _.has(obj2, key);
     const valueBefore = obj1[key];
     const valueAfter = obj2[key];
-    let state;
-    switch (true) {
-      case (isHasObj1 && !isHasObj2):
-        state = 'deleted';
-        break;
-      case (!isHasObj1 && isHasObj2):
-        state = 'added';
-        break;
-      case (isObject(valueBefore) && isObject(valueAfter)):
-        state = 'deep';
-        return [key, state, buildAst(valueBefore, valueAfter)];
-      case (valueBefore === valueAfter):
-        state = 'equal';
-        break;
-      default:
-        state = 'changed';
-        break;
+
+    if (isHasObj1 && !isHasObj2) {
+      return [key, 'deleted', valueBefore, valueAfter];
     }
-    return [key, state, valueBefore, valueAfter];
+    if (!isHasObj1 && isHasObj2) {
+      return [key, 'added', valueBefore, valueAfter];
+    }
+    if (_.isObject(valueBefore) && _.isObject(valueAfter)) {
+      return [key, 'deep', buildAst(valueBefore, valueAfter)];
+    }
+    if (valueBefore === valueAfter) {
+      return [key, 'equal', valueBefore, valueAfter];
+    }
+    if (valueBefore !== valueAfter) {
+      return [key, 'changed', valueBefore, valueAfter];
+    }
+    throw new Error(`I can not compare valueBefore: ${valueBefore} and valueAfter: ${valueAfter}`);
   };
 
   return keys.map(makeNode);
+};
+
+const outputFormat = {
+  total: totalDiff,
+  plain: plainDiff,
+  json: jsonDiff,
 };
 
 export default (pathToConfigFile1, pathToConfigFile2, format = 'total') => {
   const config1 = fs.readFileSync(pathToConfigFile1, 'utf-8');
   const config2 = fs.readFileSync(pathToConfigFile2, 'utf-8');
 
-  const extension1 = path.extname(pathToConfigFile1);
-  const extension2 = path.extname(pathToConfigFile2);
-
-  const obj1 = inputParsers[extension1](config1);
-  const obj2 = inputParsers[extension2](config2);
+  const obj1 = parse(config1);
+  const obj2 = parse(config2);
 
   const ast = buildAst(obj1, obj2);
 
-  return outputParsers[format](ast);
+  return outputFormat[format](ast);
 };
