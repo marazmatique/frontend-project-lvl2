@@ -8,7 +8,7 @@ const stringify = (obj, gap) => `{\n${Object.entries(obj)
 
 export default (ast) => {
   const iter = (arr, gap) => arr
-    .reduce((acc, [key, state, valueBefore, valueAfter]) => {
+    .reduce((acc, node) => {
       const getDeep = (value) => {
         if (Array.isArray(value)) {
           return `{\n${iter(value, gap + 4).join('\n')}\n${indent(gap + 4)}}`;
@@ -19,25 +19,25 @@ export default (ast) => {
         return value;
       };
 
-      switch (state) {
+      switch (node.state) {
         case ('changed'):
-          acc.push(`${indent(gap)}  - ${key}: ${getDeep(valueBefore)}`);
-          acc.push(`${indent(gap)}  + ${key}: ${getDeep(valueAfter)}`);
+          acc.push(`${indent(gap)}  - ${node.key}: ${getDeep(node.valueBefore)}`);
+          acc.push(`${indent(gap)}  + ${node.key}: ${getDeep(node.valueAfter)}`);
           break;
         case ('deep'):
-          acc.push(`${indent(gap)}    ${key}: ${getDeep(valueBefore)}`);
+          acc.push(`${indent(gap)}    ${node.key}: ${getDeep(node.children)}`);
           break;
         case ('deleted'):
-          acc.push(`${indent(gap)}  - ${key}: ${getDeep(valueBefore)}`);
+          acc.push(`${indent(gap)}  - ${node.key}: ${getDeep(node.value)}`);
           break;
         case ('added'):
-          acc.push(`${indent(gap)}  + ${key}: ${getDeep(valueAfter)}`);
+          acc.push(`${indent(gap)}  + ${node.key}: ${getDeep(node.value)}`);
           break;
         case ('equal'):
-          acc.push(`${indent(gap)}    ${key}: ${getDeep(valueBefore)}`);
+          acc.push(`${indent(gap)}    ${node.key}: ${getDeep(node.value)}`);
           break;
         default:
-          throw new Error(`unknown state "${state}"`);
+          throw new Error(`unknown state "${node.state}"`);
       }
       return acc;
     }, []);

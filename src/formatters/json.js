@@ -1,30 +1,16 @@
 import _ from 'lodash';
 
-const stringify = (obj) => Object.fromEntries(Object.entries(obj)
-  .map(([key, value]) => [key, !/[^0-9]/.test(value) ? parseInt(value, 10) : value]));
-
 export default (ast) => {
-  const iter = (arr) => arr
-    .reduce((acc, [key, state, valueBefore, valueAfter]) => {
-      switch (state) {
-        case ('deep'):
-          acc[key] = iter(valueBefore);
-          return acc;
-        case ('changed'):
-          acc[key] = ['was changed', valueBefore, valueAfter];
-          return acc;
-        case ('deleted'):
-          acc[key] = 'was deleted';
-          return acc;
-        case ('added'):
-          acc[key] = ['was added with value', _.isObject(valueAfter) ? stringify(valueAfter) : valueAfter];
-          return acc;
-        case ('equal'):
-          return acc;
-        default:
-          throw new Error(`unknown state "${state}"`);
-      }
-    }, {});
+  const iter = (arr) => arr.reduce((acc, node) => {
+    if (_.has(node, 'children')) {
+      acc[node.key] = iter(node.children);
+      return acc;
+    }
+
+    acc[node.key] = node.state;
+
+    return acc;
+  }, {});
 
   return JSON.stringify(iter(ast), null, 2);
 };

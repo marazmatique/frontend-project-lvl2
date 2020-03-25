@@ -1,9 +1,8 @@
 import _ from 'lodash';
 import fs from 'fs';
+import path from 'path';
 import parse from './parsers';
-import totalDiff from './formatters/total';
-import plainDiff from './formatters/plain';
-import jsonDiff from './formatters/json';
+import render from './formatters';
 
 const buildAst = (obj1, obj2) => {
   const keys = _.union(_.keys(obj1), _.keys(obj2));
@@ -14,41 +13,51 @@ const buildAst = (obj1, obj2) => {
     const valueBefore = obj1[key];
     const valueAfter = obj2[key];
 
+    const node = { key };
+
     if (isHasObj1 && !isHasObj2) {
-      return [key, 'deleted', valueBefore, valueAfter];
+      node.state = 'deleted';
+      node.value = valueBefore;
+      return node;
     }
     if (!isHasObj1 && isHasObj2) {
-      return [key, 'added', valueBefore, valueAfter];
+      node.state = 'added';
+      node.value = valueAfter;
+      return node;
     }
     if (_.isObject(valueBefore) && _.isObject(valueAfter)) {
-      return [key, 'deep', buildAst(valueBefore, valueAfter)];
+      node.state = 'deep';
+      node.children = buildAst(valueBefore, valueAfter);
+      return node;
     }
     if (valueBefore === valueAfter) {
-      return [key, 'equal', valueBefore, valueAfter];
+      node.state = 'equal';
+      node.value = valueBefore;
     }
     if (valueBefore !== valueAfter) {
-      return [key, 'changed', valueBefore, valueAfter];
+      node.state = 'changed';
+      node.valueBefore = valueBefore;
+      node.valueAfter = valueAfter;
     }
-    throw new Error(`I can not compare valueBefore: ${valueBefore} and valueAfter: ${valueAfter}`);
+    return node;
   };
 
   return keys.map(makeNode);
-};
-
-const outputFormat = {
-  total: totalDiff,
-  plain: plainDiff,
-  json: jsonDiff,
 };
 
 export default (pathToConfigFile1, pathToConfigFile2, format = 'total') => {
   const config1 = fs.readFileSync(pathToConfigFile1, 'utf-8');
   const config2 = fs.readFileSync(pathToConfigFile2, 'utf-8');
 
-  const obj1 = parse(config1);
-  const obj2 = parse(config2);
+  const extname1 = path.extname(pathToConfigFile1);
+  const extname2 = path.extname(pathToConfigFile2);
+
+  const configType = (extname) => extname.slice(1);
+
+  const obj1 = parse(config1, configType(extname1));
+  const obj2 = parse(config2, configType(extname2));
 
   const ast = buildAst(obj1, obj2);
 
-  return outputFormat[format](ast);
+  return render(ast, format);
 };

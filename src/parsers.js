@@ -1,16 +1,10 @@
 import yaml from 'js-yaml';
 import ini from 'ini';
 
-export default (configData) => {
-  if (/^[{\t}]/m.test(configData)) {
-    return JSON.parse(configData);
-  }
-  if (/:/m.test(configData)) {
-    return yaml.safeLoad(configData);
-  }
-  if (/^[^\t]/m.test(configData)) {
-    return ini.parse(configData);
-  }
+const parsers = ({
+  json: JSON.parse,
+  yml: yaml.safeLoad,
+  ini: ini.parse,
+});
 
-  throw new Error(`unsupported type of configData: ${configData}`);
-};
+export default (config, type) => parsers[type](config);
