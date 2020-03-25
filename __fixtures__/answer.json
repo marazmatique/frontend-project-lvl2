@@ -1,53 +1,21 @@
 {
   "common": {
-    "setting2": "was deleted",
-    "setting3": [
-      "was changed",
-      true,
-      {
-        "key": "value"
-      }
-    ],
+    "setting1": "equal",
+    "setting2": "deleted",
+    "setting3": "changed",
     "setting6": {
-      "ops": [
-        "was added with value",
-        "vops"
-      ]
+      "key": "equal",
+      "ops": "added"
     },
-    "follow": [
-      "was added with value",
-      false
-    ],
-    "setting4": [
-      "was added with value",
-      "blah blah"
-    ],
-    "setting5": [
-      "was added with value",
-      {
-        "key5": "value5"
-      }
-    ]
+    "follow": "added",
+    "setting4": "added",
+    "setting5": "added"
   },
   "group1": {
-    "baz": [
-      "was changed",
-      "bas",
-      "bars"
-    ],
-    "nest": [
-      "was changed",
-      {
-        "key": "value"
-      },
-      "str"
-    ]
+    "baz": "changed",
+    "foo": "equal",
+    "nest": "changed"
   },
-  "group2": "was deleted",
-  "group3": [
-    "was added with value",
-    {
-      "fee": 100500
-    }
-  ]
+  "group2": "deleted",
+  "group3": "added"
 }
