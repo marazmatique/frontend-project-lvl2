@@ -27,7 +27,7 @@ const buildAst = (obj1, obj2) => {
     }
     if (valueBefore !== valueAfter) {
       return {
-        key, state: 'changed', valueBefore, valueAfter
+        key, state: 'changed', valueBefore, valueAfter,
       };
     }
 
