@@ -26,7 +26,9 @@ const buildAst = (obj1, obj2) => {
       return { key, state: 'equal', value: valueBefore };
     }
     if (valueBefore !== valueAfter) {
-      return { key, state: 'changed', valueBefore, valueAfter };
+      return {
+        key, state: 'changed', valueBefore, valueAfter
+      };
     }
 
     throw new Error(`state error with key: ${key}`);
