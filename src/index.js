@@ -13,33 +13,23 @@ const buildAst = (obj1, obj2) => {
     const valueBefore = obj1[key];
     const valueAfter = obj2[key];
 
-    const node = { key };
-
     if (isHasObj1 && !isHasObj2) {
-      node.state = 'deleted';
-      node.value = valueBefore;
-      return node;
+      return { key, state: 'deleted', value: valueBefore };
     }
     if (!isHasObj1 && isHasObj2) {
-      node.state = 'added';
-      node.value = valueAfter;
-      return node;
+      return { key, state: 'added', value: valueAfter };
     }
     if (_.isObject(valueBefore) && _.isObject(valueAfter)) {
-      node.state = 'deep';
-      node.children = buildAst(valueBefore, valueAfter);
-      return node;
+      return { key, state: 'deep', children: buildAst(valueBefore, valueAfter) };
     }
     if (valueBefore === valueAfter) {
-      node.state = 'equal';
-      node.value = valueBefore;
+      return { key, state: 'equal', value: valueBefore };
     }
     if (valueBefore !== valueAfter) {
-      node.state = 'changed';
-      node.valueBefore = valueBefore;
-      node.valueAfter = valueAfter;
+      return { key, state: 'changed', valueBefore, valueAfter };
     }
-    return node;
+
+    throw new Error(`state error with key: ${key}`);
   };
 
   return keys.map(makeNode);
