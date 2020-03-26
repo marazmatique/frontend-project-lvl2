@@ -1,9 +1,7 @@
-import _ from 'lodash';
-
 export default (ast) => {
   const iter = (arr) => arr.reduce((acc, node) => {
-    if (_.has(node, 'children')) {
-      acc[node.key] = iter(node.children);
+    if (node.state === 'deep') {
+      acc[node.key] = iter(node.value);
       return acc;
     }
 

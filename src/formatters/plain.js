@@ -15,10 +15,11 @@ export default (ast) => {
       const keyPath = preKey.length > 0 ? [preKey, node.key].join('.') : node.key;
       switch (node.state) {
         case ('deep'):
-          acc.push(...iter(node.children, keyPath));
+          acc.push(...iter(node.value, keyPath));
           return acc;
         case ('changed'):
-          acc.push(`Property '${keyPath}' was changed from ${formatValue(node.valueBefore)} to ${formatValue(node.valueAfter)}`);
+          acc.push(`Property '${keyPath}' was changed from ${formatValue(node.value
+            .valueBefore)} to ${formatValue(node.value.valueAfter)}`);
           return acc;
         case ('deleted'):
           acc.push(`Property '${keyPath}' was deleted`);

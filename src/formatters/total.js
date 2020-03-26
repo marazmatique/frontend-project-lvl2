@@ -21,11 +21,11 @@ export default (ast) => {
 
       switch (node.state) {
         case ('changed'):
-          acc.push(`${indent(gap)}  - ${node.key}: ${getDeep(node.valueBefore)}`);
-          acc.push(`${indent(gap)}  + ${node.key}: ${getDeep(node.valueAfter)}`);
+          acc.push(`${indent(gap)}  - ${node.key}: ${getDeep(node.value.valueBefore)}`);
+          acc.push(`${indent(gap)}  + ${node.key}: ${getDeep(node.value.valueAfter)}`);
           break;
         case ('deep'):
-          acc.push(`${indent(gap)}    ${node.key}: ${getDeep(node.children)}`);
+          acc.push(`${indent(gap)}    ${node.key}: ${getDeep(node.value)}`);
           break;
         case ('deleted'):
           acc.push(`${indent(gap)}  - ${node.key}: ${getDeep(node.value)}`);
