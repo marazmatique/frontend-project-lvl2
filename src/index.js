@@ -20,7 +20,7 @@ const buildAst = (obj1, obj2) => {
       return { key, state: 'added', value: valueAfter };
     }
     if (_.isObject(valueBefore) && _.isObject(valueAfter)) {
-      return { key, state: 'deep', value: buildAst(valueBefore, valueAfter) };
+      return { key, state: 'immersed', children: buildAst(valueBefore, valueAfter) };
     }
     if (valueBefore === valueAfter) {
       return { key, state: 'equal', value: valueBefore };

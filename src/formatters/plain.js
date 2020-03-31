@@ -9,30 +9,27 @@ const formatValue = (value) => {
   }
 };
 
-export default (ast) => {
-  const iter = (arr, preKey) => arr
-    .reduce((acc, node) => {
-      const keyPath = preKey.length > 0 ? [preKey, node.key].join('.') : node.key;
-      switch (node.state) {
-        case ('deep'):
-          acc.push(...iter(node.value, keyPath));
-          return acc;
-        case ('changed'):
-          acc.push(`Property '${keyPath}' was changed from ${formatValue(node.value
-            .valueBefore)} to ${formatValue(node.value.valueAfter)}`);
-          return acc;
-        case ('deleted'):
-          acc.push(`Property '${keyPath}' was deleted`);
-          return acc;
-        case ('added'):
-          acc.push(`Property '${keyPath}' was added with value: ${formatValue(node.value)}`);
-          return acc;
-        case ('equal'):
-          return acc;
-        default:
-          throw new Error(`unknown state "${node.state}"`);
-      }
-    }, []);
+const iter = (arr, accumulatedPath) => arr
+  .map((node) => {
+    const pathToKey = accumulatedPath ? [accumulatedPath, node.key].join('.') : node.key;
 
-  return iter(ast, []).join('\n');
-};
+    switch (node.state) {
+      case 'immersed':
+        return iter(node.children, pathToKey);
+      case 'changed':
+        return `Property '${pathToKey}' was changed from ${formatValue(node.value
+          .valueBefore)} to ${formatValue(node.value.valueAfter)}`;
+      case 'deleted':
+        return `Property '${pathToKey}' was deleted`;
+      case 'added':
+        return `Property '${pathToKey}' was added with value: ${formatValue(node.value)}`;
+      case 'equal':
+        return '';
+      default:
+        throw new Error(`unknown state "${node.state}"`);
+    }
+  })
+  .filter((str) => str !== '')
+  .join('\n');
+
+export default (ast) => iter(ast);
