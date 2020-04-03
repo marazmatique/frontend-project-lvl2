@@ -8,15 +8,13 @@ const buildAst = (obj1, obj2) => {
   const keys = _.union(_.keys(obj1), _.keys(obj2));
 
   const makeNode = (key) => {
-    const isHasObj1 = _.has(obj1, key);
-    const isHasObj2 = _.has(obj2, key);
     const valueBefore = obj1[key];
     const valueAfter = obj2[key];
 
-    if (isHasObj1 && !isHasObj2) {
+    if (!_.has(obj2, key)) {
       return { key, state: 'deleted', value: valueBefore };
     }
-    if (!isHasObj1 && isHasObj2) {
+    if (!_.has(obj1, key)) {
       return { key, state: 'added', value: valueAfter };
     }
     if (_.isObject(valueBefore) && _.isObject(valueAfter)) {
