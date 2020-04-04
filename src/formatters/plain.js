@@ -9,7 +9,7 @@ const formatValue = (value) => {
   }
 };
 
-const iter = (arr, accumulatedPath) => arr
+const iter = (nodes, accumulatedPath) => nodes
   .map((node) => {
     const pathToKey = accumulatedPath ? [accumulatedPath, node.key].join('.') : node.key;
 
@@ -17,19 +17,19 @@ const iter = (arr, accumulatedPath) => arr
       case 'immersed':
         return iter(node.children, pathToKey);
       case 'changed':
-        return `Property '${pathToKey}' was changed from ${formatValue(node.value
-          .valueBefore)} to ${formatValue(node.value.valueAfter)}`;
+        return `Property '${pathToKey}' was changed from ${formatValue(node
+          .valueBefore)} to ${formatValue(node.valueAfter)}`;
       case 'deleted':
         return `Property '${pathToKey}' was deleted`;
       case 'added':
         return `Property '${pathToKey}' was added with value: ${formatValue(node.value)}`;
       case 'equal':
-        return '';
+        return null;
       default:
         throw new Error(`unknown state "${node.state}"`);
     }
   })
-  .filter((str) => str !== '')
+  .filter((str) => str !== null)
   .join('\n');
 
 export default (ast) => iter(ast);
