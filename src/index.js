@@ -11,25 +11,22 @@ const buildAst = (obj1, obj2) => {
     const valueBefore = obj1[key];
     const valueAfter = obj2[key];
 
+    const node = { key, state: 'changed' };
+
     if (!_.has(obj2, key)) {
-      return { key, state: 'deleted', value: valueBefore };
+      return { ...node, state: 'deleted', value: valueBefore };
     }
     if (!_.has(obj1, key)) {
-      return { key, state: 'added', value: valueAfter };
+      return { ...node, state: 'added', value: valueAfter };
     }
     if (_.isObject(valueBefore) && _.isObject(valueAfter)) {
-      return { key, state: 'immersed', children: buildAst(valueBefore, valueAfter) };
+      return { ...node, state: 'immersed', children: buildAst(valueBefore, valueAfter) };
     }
     if (valueBefore === valueAfter) {
-      return { key, state: 'equal', value: valueBefore };
+      return { ...node, state: 'equal', value: valueBefore };
     }
     if (valueBefore !== valueAfter) {
-      return {
-        key,
-        state: 'changed',
-        valueBefore,
-        valueAfter,
-      };
+      return { ...node, valueBefore, valueAfter };
     }
 
     throw new Error(`state error with key: ${key}`);

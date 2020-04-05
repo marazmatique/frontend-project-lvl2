@@ -32,4 +32,4 @@ const iter = (nodes, accumulatedPath) => nodes
   .filter((str) => str !== null)
   .join('\n');
 
-export default (ast) => iter(ast);
+export default iter;
