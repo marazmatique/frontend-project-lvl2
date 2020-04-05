@@ -1,6 +1,5 @@
-export default (ast) => {
-  const iter = (arr) => Object.fromEntries(arr
-    .map((node) => [node.key, node.children ? iter(node.children) : node.state]));
+const normalize = (value) => (!/[^0-9]/.test(value) ? parseInt(value, 10) : value);
 
-  return JSON.stringify(iter(ast), null, 2);
-};
+const iter = (ast) => JSON.stringify(ast, (key, value) => normalize(value), 2);
+
+export default iter;

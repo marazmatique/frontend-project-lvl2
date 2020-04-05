@@ -1,21 +1,98 @@
-{
-  "common": {
-    "setting1": "equal",
-    "setting2": "deleted",
-    "setting3": "changed",
-    "setting6": {
-      "key": "equal",
-      "ops": "added"
-    },
-    "follow": "added",
-    "setting4": "added",
-    "setting5": "added"
+[
+  {
+    "key": "common",
+    "state": "immersed",
+    "children": [
+      {
+        "key": "setting1",
+        "state": "equal",
+        "value": "Value 1"
+      },
+      {
+        "key": "setting2",
+        "state": "deleted",
+        "value": 200
+      },
+      {
+        "key": "setting3",
+        "state": "changed",
+        "valueBefore": true,
+        "valueAfter": {
+          "key": "value"
+        }
+      },
+      {
+        "key": "setting6",
+        "state": "immersed",
+        "children": [
+          {
+            "key": "key",
+            "state": "equal",
+            "value": "value"
+          },
+          {
+            "key": "ops",
+            "state": "added",
+            "value": "vops"
+          }
+        ]
+      },
+      {
+        "key": "follow",
+        "state": "added",
+        "value": false
+      },
+      {
+        "key": "setting4",
+        "state": "added",
+        "value": "blah blah"
+      },
+      {
+        "key": "setting5",
+        "state": "added",
+        "value": {
+          "key5": "value5"
+        }
+      }
+    ]
   },
-  "group1": {
-    "baz": "changed",
-    "foo": "equal",
-    "nest": "changed"
+  {
+    "key": "group1",
+    "state": "immersed",
+    "children": [
+      {
+        "key": "baz",
+        "state": "changed",
+        "valueBefore": "bas",
+        "valueAfter": "bars"
+      },
+      {
+        "key": "foo",
+        "state": "equal",
+        "value": "bar"
+      },
+      {
+        "key": "nest",
+        "state": "changed",
+        "valueBefore": {
+          "key": "value"
+        },
+        "valueAfter": "str"
+      }
+    ]
   },
-  "group2": "deleted",
-  "group3": "added"
-}
+  {
+    "key": "group2",
+    "state": "deleted",
+    "value": {
+      "abc": 12345
+    }
+  },
+  {
+    "key": "group3",
+    "state": "added",
+    "value": {
+      "fee": 100500
+    }
+  }
+]

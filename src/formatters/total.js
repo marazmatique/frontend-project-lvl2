@@ -8,6 +8,7 @@ const getDeep = (value, gap) => {
   if (_.isObject(value)) {
     const propertyOfValue = Object.entries(value)
       .map(([deepKey, deepValue]) => `    ${deepKey}: ${deepValue}`);
+
     return stringify(propertyOfValue, gap + 4);
   }
 
