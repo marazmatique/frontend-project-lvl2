@@ -1,3 +1,9 @@
-const normalize = (value) => (!/[^0-9]/.test(value) ? parseInt(value, 10) : value);
+const isNumber = (value) => !/[^0-9]/.test(value);
 
-export default (ast) => JSON.stringify(ast, (key, value) => normalize(value), 2);
+export default (ast) => JSON.stringify(ast, (key, value) => {
+  if (!isNumber(value)) {
+    return value;
+  }
+
+  return parseInt(value, 10);
+}, 2);
