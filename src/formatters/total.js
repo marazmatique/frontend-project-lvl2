@@ -5,14 +5,13 @@ const indent = (num) => ' '.repeat(num);
 const stringify = (strings, gap) => ['{', ...strings, '}'].join(`\n${indent(gap)}`);
 
 const getDeep = (value, gap) => {
-  if (_.isObject(value)) {
-    const propertyOfValue = Object.entries(value)
-      .map(([deepKey, deepValue]) => `    ${deepKey}: ${deepValue}`);
-
-    return stringify(propertyOfValue, gap + 4);
+  if (!_.isObject(value)) {
+    return value;
   }
+  const propertyOfValue = Object.entries(value)
+    .map(([deepKey, deepValue]) => `    ${deepKey}: ${deepValue}`);
 
-  return value;
+  return stringify(propertyOfValue, gap + 4);
 };
 
 const iter = (nodes, gap = 0) => {
